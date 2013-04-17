@@ -37,17 +37,21 @@ JackEngine::~JackEngine()
 	}
 }
 
+// FIXME: temp remove this
+#include "soundfile.h"
 bool JackEngine::Start()
 {
 	jack_activate(jack_client);
 
-	// TODO: this is temp, delete it, we create stam stuff in the buffer so we hear something
-	// create buffer
-	jack_default_audio_sample_t *buf = audio_buffer->allocate_new(1024);
-	for (jack_nframes_t i = 0; i < 1024; i++)
-	{
-		buf[i] = (i % 10) / 10.0f;
-	}
+	// TODO: this is temp, delete it, we load stam stuff in the buffer so we hear something
+	SoundFile file("sound1.wav");
+
+	sf_count_t frames = file.get_info()->get_frames();
+	int channels = file.get_info()->get_channels();
+	unsigned int buf_size = frames * channels;
+
+	jack_default_audio_sample_t *buf = audio_buffer->allocate_new(buf_size);
+	file.read_float(buf, buf_size);
 
 	return true;
 }
