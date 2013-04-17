@@ -4,6 +4,7 @@
 #include <jack/jack.h>
 
 #include "audioengine.h"
+#include "jackaudiobuffer.h"
 
 class JackEngine : public AudioEngine
 {
@@ -19,6 +20,13 @@ class JackEngine : public AudioEngine
 	protected:
 		jack_port_t* get_port_left() { return left; }
 		jack_port_t* get_port_right() { return right; }
+
+		// TODO: add more if smart programmer in the future, we can use 4 audio buffers for example;
+		JackAudioBuffer *audio_buffer;
+		jack_nframes_t audio_buffer_cursor;
+
+		JackAudioBuffer* get_current_audio_buffer();
+		jack_nframes_t* get_audio_buffer_cursor() { return &audio_buffer_cursor; }
 
 	private:
 		jack_client_t *jack_client;
