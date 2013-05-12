@@ -41,8 +41,6 @@ JackEngine::~JackEngine()
 #include "soundfile.h"
 bool JackEngine::Start()
 {
-	jack_activate(jack_client);
-
 	// TODO: this is temp, delete it, we load stam stuff in the buffer so we hear something
 	SoundFile file("sound1.wav");
 
@@ -52,6 +50,8 @@ bool JackEngine::Start()
 
 	jack_default_audio_sample_t *buf = audio_buffer->allocate_new(buf_size);
 	file.read_float(buf, buf_size);
+
+	jack_activate(jack_client);
 
 	return true;
 }
