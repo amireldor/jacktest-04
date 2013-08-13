@@ -22,11 +22,10 @@ class JackEngine : public AudioEngine
 		jack_port_t* get_port_right() { return right; }
 
 		// TODO: add more if smart programmer in the future, we can use 4 audio buffers for example;
-		JackAudioBuffer *audio_buffer;
-		jack_nframes_t audio_buffer_cursor;
+		JackAudioVector audio_vector;
+		jack_nframes_t audio_cursor;
 
-		JackAudioBuffer* get_current_audio_buffer();
-		jack_nframes_t* get_audio_buffer_cursor() { return &audio_buffer_cursor; }
+		JackAudioVector& getAudioVector() { return audio_vector; }
 
 	private:
 		jack_client_t *jack_client;
